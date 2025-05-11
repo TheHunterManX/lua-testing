@@ -1,0 +1,49 @@
+instructions:
+[0] = "mov_reg",
+[1] = "mov_val",
+[2] = "print",
+[3] = "add",
+[4] = "sub",
+[5] = "add_32",
+[6] = "sub_32",
+[0xD0] = "goto",
+[0xD1] = "bx",
+[0xFE] = "end",
+[0xFF] = "white",
+
+you can either use registers or variables. Variables start with F0, then 2 bytes
+
+mov_reg r1 r2 - 3 bytes (max 7 bytes)
+copies r2 to r1
+example: mov_reg 01 01
+
+move_val r1 0xFFFF - 4 bytes (max 6 bytes)
+copies value to r1
+
+print r1/utf8/var - 6 bytes (max inf.)
+prints register/variable/custom code, registers are 2 bytes, variables are 3, and utf8 chars are 5.
+a utf8 char is defined as such: byte 1: 0xF1 bytes 2-5: (utf-8 code)
+
+add r1 0xFF - 3 bytes (max 5 bytes)
+adds value to r1
+
+sub r1 0xFF - 3 bytes (max 5 bytes)
+subs value to r1
+
+add_32 r1 0xFF - 6 bytes (max 8 bytes)
+adds 4-byte value to r1
+
+sub_32 r1 0xFF - 6 bytes (max 8 bytes)
+subs 4-byte value to r1
+
+goto 0xFFFFFFFF - 5 bytes
+goes to a place in the code
+
+bx r1 - 3 bytes (max 5 bytes)
+goes to a place in the code
+
+end - 1 byte
+ends code
+
+white - 1 byte
+simply continues code without running anything
